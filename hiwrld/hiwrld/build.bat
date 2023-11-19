@@ -11,17 +11,18 @@ set TMPDIR=C:\WINDOWS\TEMP
 
 mkdir build
 cd build
-del mem.map
-del main.sym
-del main.exe
-del main.cpe
+del *.map
+del *.sym
+del *.exe
+del *.cpe
 del *.o
 cd ..
 
-ccpsx -v -c -O0 -Xo$80010000 -Wall utils.c -obuild\utils.o
-ccpsx -v -c -O0 -Xo$80010000 -Wall render.c -obuild\render.o
-ccpsx -v -c -O0 -Xo$80010000 -Wall structs.c -obuild\structs.o
-ccpsx -v -c -O0 -Xo$80010000 -Wall game.c -obuild\game.o
+ccpsx -v -c -O0 -Xo$80010000 -Wall utils.c build\*.o -obuild\utils.o
+ccpsx -v -c -O0 -Xo$80010000 -Wall render.c build\*.o -obuild\render.o
+ccpsx -v -c -O0 -Xo$80010000 -Wall structs.c build\*.o -obuild\structs.o
+ccpsx -v -c -O0 -Xo$80010000 -Wall func.c build\*.o -obuild\func.o
+ccpsx -v -c -O0 -Xo$80010000 -Wall game.c build\*.o -obuild\game.o
 
 ccpsx -v -O0 -Wall -Xo$80010000 main.c build\*.o -obuild\main.cpe,build\main.sym,build\mem.map
 

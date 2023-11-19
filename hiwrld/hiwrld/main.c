@@ -4,7 +4,7 @@
 #include <libgs.h>
 #include <rand.h>
 #include <libetc.h>
-#include "controller.c"
+#include "controller.h"
 #include "color.h"
 #include "debug.h"
 #include "point.h"

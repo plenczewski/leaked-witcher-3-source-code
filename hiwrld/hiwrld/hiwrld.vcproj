@@ -147,11 +147,35 @@
 			<Filter
 				Name="functionalities"
 				>
+				<File
+					RelativePath=".\func.c"
+					>
+				</File>
+				<File
+					RelativePath=".\func.h"
+					>
+				</File>
 				<Filter
 					Name="hardware"
 					>
 					<File
 						RelativePath=".\controller.c"
+						>
+					</File>
+					<File
+						RelativePath=".\controller.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="event_bus"
+					>
+					<File
+						RelativePath=".\ev_bus.c"
+						>
+					</File>
+					<File
+						RelativePath=".\ev_bus.h"
 						>
 					</File>
 				</Filter>
@@ -236,6 +260,18 @@
 					</File>
 					<File
 						RelativePath=".\g_main.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="events"
+					>
+					<File
+						RelativePath=".\events.c"
+						>
+					</File>
+					<File
+						RelativePath=".\events.h"
 						>
 					</File>
 				</Filter>

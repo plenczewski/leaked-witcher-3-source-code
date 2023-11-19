@@ -1,5 +1,5 @@
-void print_ptr(void* i){
-	char str[16];
-	sprintf(str, "%p",i);
-	FntPrint(str);
+#include <libmath.h>
+void error(char* error_message){
+	printf("ERROR: %s\n", error_message);
+	SystemError('A', 44);
 }

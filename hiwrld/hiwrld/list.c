@@ -5,19 +5,18 @@ struct ListNode* _l_get_element_at(struct LinkedList* list, long index);
 struct LinkedList* new_linked_list(){
 	struct LinkedList* ll = (struct LinkedList*)malloc(sizeof(*ll));
 	if (!ll)
-		return;
+		return NULL;
 	ll->first_element = 0;
 	ll->last_element = 0;
 	ll->count = 0;
 	return ll;
 }
 
-void l_add_element(struct LinkedList* list, void* element){
+int l_add_element(struct LinkedList* list, void* element){
 	struct ListNode* last_node = list->last_element;
 	struct ListNode* new_list_node = (struct ListNode*)malloc(sizeof(*new_list_node));
-
 	if (!new_list_node)
-		return;
+		return NULL;
 
 	new_list_node->current = element;
 	new_list_node->next = 0;
@@ -29,6 +28,7 @@ void l_add_element(struct LinkedList* list, void* element){
 
 	list->last_element = new_list_node;
 	list->count++;
+	return new_list_node;
 }
 
 BOOL l_is_empty(struct LinkedList list){
@@ -43,6 +43,13 @@ void l_for_each(struct LinkedList* list, void (*f)(void*)){
 	struct ListNode* next_elem_ptr = list->first_element;
 	while (next_elem_ptr) {
 		(*f)(next_elem_ptr->current);
+		next_elem_ptr = next_elem_ptr->next;
+	}
+}
+void l_for_each_scoped(struct LinkedList* list, void (*f)(void*, void*), void* scope){
+	struct ListNode* next_elem_ptr = list->first_element;
+	while (next_elem_ptr) {
+		(*f)(next_elem_ptr->current, scope);
 		next_elem_ptr = next_elem_ptr->next;
 	}
 }
@@ -65,24 +72,39 @@ void l_remove_at_index(struct LinkedList* list, int index){
 		if(toRemove)
 			next = toRemove->next;
 	}
-
+	if(!toRemove)
+		return;
 	// trying to remove in the middle
-	if (previous && next)
+	else if (previous && next)
 		previous->next = next;
+	else if (!previous && !next)
+		list->first_element = NULL;
 	// trying to remove first
 	else if (!previous && next)
 		list->first_element = next;
 	// trying to remove last
 	else if (previous && !next)
 		previous->next = 0;
-	// nothing removed
-	else return;
 	list->count--;
 	free(toRemove);
 }
+void l_remove(struct LinkedList* list, struct ListNode* nodePtr){
+	long index = _l_index_of(list, nodePtr);
+	l_remove_at_index(list, index);
+}
+long _l_index_of(struct LinkedList* list, struct ListNode* nodePtr){
+	struct ListNode* previous = list->first_element;
+	long i = 0;
+	while(previous && previous != nodePtr){
+		previous = previous->next;
+		i++;
+	}
+	if(!previous)
+		return -1;
+	return i;
+}
 
 void l_dispose(struct LinkedList* list) {
-	long size = l_count(*list);
 	struct ListNode* node_to_remove = list->first_element;
 	struct ListNode* current = NULL;
 	while (node_to_remove) {

@@ -5,5 +5,6 @@
 #include "game_obj.h"
 #include "world.h"
 #include "g_main.h"
+#include "events.h"
 
 #endif

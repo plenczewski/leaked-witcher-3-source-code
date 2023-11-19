@@ -1,27 +1,23 @@
 #include "g_main.h"
+#include "ev_bus.h"
+#include "events.h"
+
+int subscriber_ptr;
+
+void _event_handler(struct EventBusEventCall ev){
+	printf("INFO: received event: %d with data: %d\n", ev.type, ev.data);
+	//if(ev.type == EB_E_PAD_EVENT)
+		//eb_unsubscribe(subscriber_ptr);
+}
 
 void g_init(void){
-	set_world(new_world());
-}
-
-void doSth(void* elem){
-	FntPrint(elem); 
-	FntPrint(" "); 
+	struct World* world = new_world();
+	printf("INFO: Created world with address: %p\n", world);
+	initialize_events();
+	printf("INFO: Initialized event bus\n");
+	subscriber_ptr = eb_subscribe_to_events(_event_handler);
+	set_world(world);
 }
 void g_main(void){
-    //struct Renderer* renderer = get_renderer();
-	struct LinkedList* list = new_linked_list();
-	l_add_element(list, "hello!"); 
-	l_add_element(list, "my!"); 
-	l_add_element(list, "friend!");
-	l_for_each(list, doSth);
-	l_remove_at_index(list, 1);
-	l_for_each(list, doSth);
-	FntPrint("\n"); 
-	print_ptr(list);
-	
-	FntPrint("/");   
-	FntPrint("/%d", l_is_empty(*list));  
-	FntPrint("/%d",l_count(*list)); 
-	l_dispose(list);
+	run_hardware_events();
 }
